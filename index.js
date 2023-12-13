@@ -1,5 +1,8 @@
 const app = require("./src/app")
 const {conn} = require("./src/db")
+const {client} = require("./whatsapp")
+
+client.initialize();
 
 conn.sync({force:true}).then(() => {
     app.listen(process.env.PORT, () => {

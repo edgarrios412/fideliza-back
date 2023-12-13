@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     phone:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     password:{
@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     code:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     }
   },{timestamps:false});

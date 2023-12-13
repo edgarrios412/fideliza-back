@@ -1,9 +1,12 @@
 const {User, Categoria, Procedimientos} = require("../db")
 const jwt = require("jsonwebtoken")
+const {client} = require("../../whatsapp")
 
 module.exports = {
     newUser: async (data) => {
-        await User.create({...data, code:1234})
+        const codigo = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+        await User.create({...data, code:codigo})
+        client.sendMessage(`57${data.phone}@c.us`, `Tu codigo de Fideliza es ${codigo}`)
         return "Usuario creado"
     },
     verifyUser: async (data) => {
@@ -28,34 +31,12 @@ module.exports = {
         return false
     },
     putUser: async (data) => {
-        let user;
-        if(data.newpass){
-            user = await User.findOne({
-                where:{
-                    id:data.id,
-                    password:data.oldpass
-                }
-            })
-        }else{
-            user = await User.findOne({
-                where:{
-                    id:data.id,
-                    // password:data.oldpass
-                }
-            })
-        }
+        const user = await User.findOne({
+            where:{
+                phone:data.phone
+            }})
         if(user){
-            if(data.name) user.name = data.name
-            if(data.role) user.role = data.role
-            if(data.lastname) user.lastname = data.lastname
-            if(data.email) user.email = data.email
             if(data.password) user.password = data.password
-            if(data.sede) user.sede = data.sede
-            if(data.comision) user.comision = data.comision
-            if(data.especialidad) user.especialidad = data.especialidad
-            if(data.comisionado >= 0) user.comisionado = data.comisionado
-            if(data.newpass) user.password = data.newpass
-            if(data.image) user.image = data.image
             user.save()
             return "Contraseña actualizada"
         }
@@ -67,6 +48,10 @@ module.exports = {
     },
     getUserById: async (id) => {
         const user = await User.findOne({where:{id:id}})
+        return user
+    },
+    getUserByPhone: async (phone) => {
+        const user = await User.findOne({where:{phone:phone}})
         return user
     },
 }
