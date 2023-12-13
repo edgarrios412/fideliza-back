@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 
 module.exports = {
     newUser: async (data) => {
-        await User.create(data)
+        await User.create({...data, code:1234})
         return "Usuario creado"
     },
     verifyUser: async (data) => {
