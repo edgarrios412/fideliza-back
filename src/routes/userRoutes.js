@@ -25,8 +25,8 @@ userRoutes.post("/verify", async (req,res) => {
 
 userRoutes.post("/auth", async (req,res) => {
     try{
-    const token = await authUser(req.body)
-    res.json({token})
+    const data = await authUser(req.body)
+    res.json(data)
     }
     catch(error){
         res.status(403).json(error.message)

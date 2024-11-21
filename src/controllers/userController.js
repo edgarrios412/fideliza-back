@@ -24,7 +24,7 @@ module.exports = {
     user.pushToken = data.pushToken
     user.save()
     const token = createToken({ id: user.id });
-    return token;
+    return {user, token};
   },
   verifyUser: async(data) => {
     const token = await decodeToken(data.token)
