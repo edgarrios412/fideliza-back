@@ -1,4 +1,4 @@
-const { User, Appointment } = require("../db");
+const { User, Appointment, Laboratory } = require("../db");
 const jwt = require("jsonwebtoken");
 const { createToken, decodeToken } = require("../helpers/jwt");
 const {
@@ -21,7 +21,7 @@ module.exports = {
       where: {
         email: data.email,
       },
-      include: [{ model: Appointment }],
+      include: [{ model: Appointment, include: [{ model: Laboratory }] }],
     });
     if (!user) throw new Error("El usuario no existe");
     if (!verifyPassword(data.password, user.password))
@@ -33,12 +33,12 @@ module.exports = {
   },
   verifyUser: async (data) => {
     const token = await decodeToken(data.token);
-    if(token.message) return {valid: false, message: token.message}
+    if (token.message) return { valid: false, message: token.message };
     const user = await User.findByPk(token.id, {
       include: [{ model: Appointment }],
     });
     console.log(token);
-    return {valid:true, user };
+    return { valid: true, user };
   },
   putUser: async (data) => {
     let user;
