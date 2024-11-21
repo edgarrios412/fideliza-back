@@ -14,12 +14,12 @@ module.exports = {
       return data;
     } catch (e) {
       if (e.name == "TokenExpiredError")
-        return res.status(401).send({ message: "Tu sesión ha caducado" });
+        return { message: "Tu sesión ha caducado" };
       if (e.name == "JsonWebTokenError")
-        return res.status(401).send({ message: "Token invalido" });
+        return { message: "Token invalido" };
       if (e.name == "NotBeforeError")
-        return res.status(401).send({ message: "Token inactivo" });
-      res.status(401).send({ message: e.message });
+        return { message: "Token inactivo" };
+      { message: e.message };
     }
   },
 

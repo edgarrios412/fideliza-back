@@ -1,4 +1,4 @@
-const { User } = require("../db");
+const { User, Appointment } = require("../db");
 const jwt = require("jsonwebtoken");
 const { createToken, decodeToken } = require("../helpers/jwt");
 const {
@@ -12,24 +12,33 @@ module.exports = {
     await User.create({ ...data, password: passwordEncripted });
     return "Usuario creado";
   },
+  newAppointment: async (data) => {
+    await Appointment.create(data);
+    return "Cita creada";
+  },
   authUser: async (data) => {
     const user = await User.findOne({
       where: {
-        email: data.email
+        email: data.email,
       },
+      include: [{ model: Appointment }],
     });
     if (!user) throw new Error("El usuario no existe");
     if (!verifyPassword(data.password, user.password))
       throw new Error("Las credenciales no son correctas");
-    user.pushToken = data.pushToken
-    user.save()
+    user.pushToken = data.pushToken;
+    user.save();
     const token = createToken({ id: user.id });
-    return {user, token};
+    return { user, token };
   },
-  verifyUser: async(data) => {
-    const token = await decodeToken(data.token)
-    console.log(token)
-    return token
+  verifyUser: async (data) => {
+    const token = await decodeToken(data.token);
+    if(token.message) return {valid: false, message: token.message}
+    const user = await User.findByPk(token.id, {
+      include: [{ model: Appointment }],
+    });
+    console.log(token);
+    return {valid:true, user };
   },
   putUser: async (data) => {
     let user;
