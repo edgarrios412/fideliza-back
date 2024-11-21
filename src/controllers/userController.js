@@ -35,7 +35,7 @@ module.exports = {
     const token = await decodeToken(data.token);
     if (token.message) return { valid: false, message: token.message };
     const user = await User.findByPk(token.id, {
-      include: [{ model: Appointment }],
+      include: [{ model: Appointment, include: [{ model: Laboratory }] }],
     });
     console.log(token);
     return { valid: true, user };
