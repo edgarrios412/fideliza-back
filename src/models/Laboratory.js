@@ -32,6 +32,11 @@ module.exports = (sequelize) => {
         type: DataTypes.FLOAT,
         allowNull: true,
         defaultValue: -73.9920667 
+      },
+      image:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue:"https://www.netbss.com/netbss_especialidades/static/src/img/especialidades/avatar5.png"
       }
     },
     { timestamps: false }
