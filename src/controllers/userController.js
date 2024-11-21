@@ -38,7 +38,7 @@ module.exports = {
       include: [{ model: Appointment }],
     });
     console.log(token);
-    return { valid: true, user };
+    return { valid: true, user, token:data.token };
   },
   putUser: async (data) => {
     let user;
