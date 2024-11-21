@@ -4,7 +4,9 @@ const moment = require("moment");
 
 module.exports = {
   createToken: (data) => {
-    const token = jwt.sign(data, KEY, { expiresIn: EXPIRE_TOKEN });
+    const token = jwt.sign(data, KEY
+      // , { expiresIn: EXPIRE_TOKEN }
+    );
     return token;
   },
 
