@@ -1,10 +1,11 @@
-const { User, Appointment, Laboratory } = require("../db");
+const { User, Appointment, Laboratory, Notification } = require("../db");
 const jwt = require("jsonwebtoken");
 const { createToken, decodeToken } = require("../helpers/jwt");
 const {
   encryptPassword,
   verifyPassword,
 } = require("../helpers/encryptPassword");
+const { sendPushNotification } = require("../helpers/sendPushNotification");
 
 module.exports = {
   newUser: async (data) => {
@@ -13,7 +14,21 @@ module.exports = {
     return "Usuario creado";
   },
   newAppointment: async (data) => {
+    const laboratorio = await Laboratory.findByPk(data.laboratoryId);
+    const usuario = await User.findByPk(data.userId);
+    await Notification.create({
+      type: "notification",
+      title: "Cita agendada",
+      message: `${laboratorio.name} ha agendado tu cita para ${data.procedimiento} exitosamente`,
+      userId: data.userId,
+      laboratoryId: data.laboratoryId
+    });
     await Appointment.create(data);
+    sendPushNotification({
+      pushToken: usuario.pushToken,
+      title: "Cita agendada",
+      message: `${laboratorio.name} ha agendado tu cita para ${data.procedimiento} exitosamente`,
+    });
     return "Cita creada";
   },
   authUser: async (data) => {
@@ -21,7 +36,10 @@ module.exports = {
       where: {
         email: data.email,
       },
-      include: [{ model: Appointment, include: [{ model: Laboratory }] }],
+      include: [
+        { model: Appointment, include: [{ model: Laboratory }] },
+        { model: Notification, include: [{ model: Laboratory }] },
+      ],
     });
     if (!user) throw new Error("El usuario no existe");
     if (!verifyPassword(data.password, user.password))
@@ -35,7 +53,10 @@ module.exports = {
     const token = await decodeToken(data.token);
     if (token.message) return { valid: false, message: token.message };
     const user = await User.findByPk(token.id, {
-      include: [{ model: Appointment, include: [{ model: Laboratory }] }],
+      include: [
+        { model: Appointment, include: [{ model: Laboratory }] },
+        { model: Notification, include: [{ model: Laboratory }]  },
+      ],
     });
     console.log(token);
     return { valid: true, user };

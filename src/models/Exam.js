@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   sequelize.define(
-    "appointment",
+    "exam",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,10 +13,15 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue:() => new Date()
       },
-      procedimiento: {
+      estado: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      url: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue:"Indefinido"
+        defaultValue:"https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"
       },
     },
     { timestamps: false }

@@ -56,7 +56,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      departamentCode: {
+      departmentCode: {
         type: DataTypes.STRING,
         allowNull: true,
       },
