@@ -1,4 +1,5 @@
 const { Laboratory, Appointment, User, Exam } = require("../db");
+const { sendPushNotification } = require("../helpers/sendPushNotification");
 
 module.exports = {
   createLaboratory: async (data) => {
@@ -19,8 +20,14 @@ module.exports = {
     return data;
   },
   newExam: async (data) => {
-    console.log(data)
+    const usuario = User.findByPk(data.userId)
+    const laboratorio = Laboratory.findByPk(data.laboratoryId)
     const exam = await Exam.create(data);
+    sendPushNotification({
+      pushToken: usuario.pushToken,
+      title: "Resultado de examenes",
+      message: `${laboratorio.name} ha emitido los resultados de tus exámenes`,
+    });
     return "Examen creado";
   },
 };
