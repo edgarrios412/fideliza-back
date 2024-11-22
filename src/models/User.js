@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       pushToken: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
       },
     },
