@@ -14,9 +14,9 @@ module.exports = (sequelize) => {
         defaultValue:() => new Date()
       },
       estado: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: 0
+        defaultValue: "1"
       },
       url: {
         type: DataTypes.STRING,

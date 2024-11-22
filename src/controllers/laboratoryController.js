@@ -19,6 +19,7 @@ module.exports = {
     return data;
   },
   newExam: async (data) => {
+    console.log(data)
     const exam = await Exam.create(data);
     return "Examen creado";
   },

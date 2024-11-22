@@ -1,4 +1,4 @@
-const { User, Appointment, Laboratory, Notification } = require("../db");
+const { User, Appointment, Laboratory, Notification, Exam } = require("../db");
 const jwt = require("jsonwebtoken");
 const { createToken, decodeToken } = require("../helpers/jwt");
 const {
@@ -21,7 +21,7 @@ module.exports = {
       title: "Cita agendada",
       message: `${laboratorio.name} ha agendado tu cita para ${data.procedimiento} exitosamente`,
       userId: data.userId,
-      laboratoryId: data.laboratoryId
+      laboratoryId: data.laboratoryId,
     });
     await Appointment.create(data);
     sendPushNotification({
@@ -39,6 +39,7 @@ module.exports = {
       include: [
         { model: Appointment, include: [{ model: Laboratory }] },
         { model: Notification, include: [{ model: Laboratory }] },
+        { model: Exam },
       ],
     });
     if (!user) throw new Error("El usuario no existe");
@@ -55,7 +56,8 @@ module.exports = {
     const user = await User.findByPk(token.id, {
       include: [
         { model: Appointment, include: [{ model: Laboratory }] },
-        { model: Notification, include: [{ model: Laboratory }]  },
+        { model: Notification, include: [{ model: Laboratory }] },
+        { model: Exam },
       ],
     });
     console.log(token);

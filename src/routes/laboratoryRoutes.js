@@ -1,5 +1,5 @@
 const {Router} = require("express")
-const { createLaboratory, getLaboratories, getAppointments } = require("../controllers/laboratoryController")
+const { createLaboratory, getLaboratories, getAppointments, newExam } = require("../controllers/laboratoryController")
 const laboratoryRoutes = Router()
 
 
@@ -33,9 +33,9 @@ laboratoryRoutes.get("/appointments/:id", async (req,res) => {
     }
 })
 
-laboratoryRoutes.get("/sendExam", async (req,res) => {
+laboratoryRoutes.post("/sendExam", async (req,res) => {
     try{
-    const laboratories = await getAppointments(req.body)
+    const laboratories = await newExam(req.body)
     res.json(laboratories)
     }
     catch(error){
