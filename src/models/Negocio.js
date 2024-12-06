@@ -28,6 +28,11 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue:"311-8268264"
       },
+      countryCode: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue:"57",
+      },
       lat: {
         type: DataTypes.FLOAT,
         allowNull: true,
