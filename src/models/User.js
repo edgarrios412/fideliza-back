@@ -8,6 +8,11 @@ module.exports = (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      countryCode: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue:"57",
+      },
       phone: {
         type: DataTypes.STRING,
         allowNull: true,
