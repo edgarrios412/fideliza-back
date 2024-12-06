@@ -30,7 +30,7 @@ let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { User, Appointment, Laboratory, Notification, Exam} = sequelize.models;
+const { User, Negocio, Product, Notification, UserNegocioPoints} = sequelize.models;
 
 // const packChar = sequelize.define('pack_char', {
 //   // Definición de otros campos de la tabla intermedia
@@ -44,26 +44,19 @@ const { User, Appointment, Laboratory, Notification, Exam} = sequelize.models;
 // Negocio.belongsToMany(User, { through:  UserNegocioPoints});
 
 // User.hasMany(Item)
+User.belongsToMany(Negocio, { through:  UserNegocioPoints});
+Negocio.belongsToMany(User, { through:  UserNegocioPoints});
 
-User.hasMany(Appointment)
-Appointment.belongsTo(User)
 
 User.hasMany(Notification)
 Notification.belongsTo(User)
 
-User.hasMany(Exam)
-Exam.belongsTo(User)
 
+Negocio.hasMany(Product)
+Product.belongsTo(Negocio)
 
-
-Laboratory.hasMany(Appointment)
-Appointment.belongsTo(Laboratory)
-
-Laboratory.hasMany(Notification)
-Notification.belongsTo(Laboratory)
-
-Laboratory.hasMany(Exam)
-Exam.belongsTo(Laboratory)
+Negocio.hasMany(Notification)
+Notification.belongsTo(Negocio)
 
 // Negocio.hasMany(Product)
 // Product.belongsTo(Negocio)

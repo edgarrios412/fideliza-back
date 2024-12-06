@@ -1,6 +1,6 @@
 const {Router} = require("express")
 const userRoutes = Router()
-const {newUser, verifyUser, authUser, putUser, getUsers, deleteUser, newAppointment} = require("../controllers/userController")
+const {newUser, verifyUser, authUser, putUser, getUsers, deleteUser, newAppointment, sendPushNotificationByUser, sendPushNotificationByNegocio} = require("../controllers/userController")
 
 userRoutes.get("/", async (req,res) => {
     try{
@@ -67,6 +67,26 @@ userRoutes.delete("/:id", async (req,res) => {
     try{
     const user = await deleteUser(req.params.id)
     res.json({status:user})
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+
+userRoutes.post("/admin/sendPushNotificationByUser", async (req,res) => {
+    try{
+        const response = await sendPushNotificationByUser(req.body)
+        res.json(response)
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+
+userRoutes.post("/admin/sendPushNotificationByNegocio", async (req,res) => {
+    try{
+        const response = await sendPushNotificationByNegocio(req.body)
+        res.json(response)
     }
     catch(error){
         console.log(error)

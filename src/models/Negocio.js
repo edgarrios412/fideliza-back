@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   sequelize.define(
-    "laboratory",
+    "negocio",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -11,7 +11,12 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue:"Clinica X"
+        defaultValue:"Pastelitos Papichis"
+      },
+      type: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue:"Gastronomía"
       },
       direction: {
         type: DataTypes.STRING,
@@ -26,17 +31,17 @@ module.exports = (sequelize) => {
       lat: {
         type: DataTypes.FLOAT,
         allowNull: true,
-        defaultValue: 5.0215614,
+        defaultValue: 5.031827549639227,
       },
       lon: {
         type: DataTypes.FLOAT,
         allowNull: true,
-        defaultValue: -73.9920667 
+        defaultValue: -73.99492566470295 
       },
       image:{
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue:"https://www.netbss.com/netbss_especialidades/static/src/img/especialidades/avatar5.png"
+        defaultValue:"https://drive.usercontent.google.com/download?id=1KucYa0X8N_Y739-me8tPWHsEe4RPNYzP"
       }
     },
     { timestamps: false }
