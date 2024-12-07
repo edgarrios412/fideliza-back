@@ -6,7 +6,7 @@ const cron = require("node-cron")
 cron.schedule("*/10 * * * *", async () => {
     console.log("Pasaron 10 minutos")
     await axios.get("https://startback.onrender.com")
-    console.log("Peticiones realizadas")
+    // console.log("Peticiones realizadas")
 })
 
 conn.sync({force:true}).then(() => {
