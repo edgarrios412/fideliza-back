@@ -13,6 +13,11 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue:"Iphone XR 256GB"
       },
+      desc: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue:"Descripcion del producto"
+      },
       price: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -22,6 +27,11 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue:20000
+      },
+      onlyClaimable: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue:false
       },
       image:{
         type: DataTypes.STRING,
