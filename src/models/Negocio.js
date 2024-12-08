@@ -47,6 +47,11 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
         defaultValue:"https://drive.usercontent.google.com/download?id=1KucYa0X8N_Y739-me8tPWHsEe4RPNYzP"
+      },
+      background:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue:"#ffffff"
       }
     },
     { timestamps: false }

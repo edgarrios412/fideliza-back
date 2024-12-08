@@ -147,4 +147,15 @@ module.exports = {
     }
     return { exitoso, error };
   },
+  updateNotications: async (userId) => {{
+    const notificaciones = await Notification.findAll({
+      where:{
+        userId: userId
+      }
+    })
+    for(let i = 0; i < notificaciones.length; i++){
+      notificaciones[i].see = true
+      notificaciones[i].save()
+    }
+  }}
 };

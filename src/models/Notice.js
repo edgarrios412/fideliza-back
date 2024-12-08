@@ -34,7 +34,7 @@ module.exports = (sequelize) => {
       image:{
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue:"https://drive.usercontent.google.com/download?id=1KucYa0X8N_Y739-me8tPWHsEe4RPNYzP"
+        defaultValue:"https://marketplace.canva.com/EAGUiACS8TA/1/0/1600w/canva-BhvjZMXmVL4.jpg"
       },
       enable: {
         type: DataTypes.BOOLEAN,

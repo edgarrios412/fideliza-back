@@ -75,6 +75,48 @@ module.exports = {
       return data;
     }
   },
+  getNegocioById: async (id) => {
+    const negocio = await Negocio.findByPk(id,{ include: [{ model: Product }] })
+    return negocio
+  },
+  getNegociosByUserPhone: async (userPhone) => {
+    const usuario = await User.findOne({
+      where:{
+        phone:userPhone
+      }
+    })
+    if(!usuario) throw new Error("Usuario no encontrado")
+    const compras = await User.findByPk(usuario.id, {
+      include: [
+        {
+          model: Negocio,
+          through: ["puntos"],
+          include: [{ model: Product }],
+        },
+      ],
+      attributes: [],
+    });
+    const negocios = await Negocio.findAll({ include: [{ model: Product }] });
+    const negociosMap = new Map(compras.negocios.map((n) => [n.id, n]));
+    negocios.forEach((negocio) => {
+      if (!negociosMap.has(negocio.id)) {
+        negociosMap.set(negocio.id, negocio);
+      }
+    });
+
+    // Convertimos el mapa a un array de negocios
+    const negociosUnicos = Array.from(negociosMap.values());
+
+    const negociosOrdenados = negociosUnicos.sort((a, b) => {
+      // Si uno de los negocios no tiene 'userNegocioPoints', tratamos los puntos como 0
+      const puntosA = a.userNegocioPoints ? a.userNegocioPoints.puntos : 0;
+      const puntosB = b.userNegocioPoints ? b.userNegocioPoints.puntos : 0;
+
+      return puntosB - puntosA; // Orden descendente
+    });
+
+    return negociosOrdenados;
+  },
   sendPoints: async (data) => {
     let user;
     user = await User.findOne({ where: { phone: data.phone } });

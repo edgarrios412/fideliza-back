@@ -1,5 +1,5 @@
 const {Router} = require("express")
-const { createNegocio, getNegocios, sendPoints, createProduct } = require("../controllers/negocioController")
+const { createNegocio, getNegocios, sendPoints, createProduct, getNegociosByUserPhone, getNegocioById } = require("../controllers/negocioController")
 const negocioRoutes = Router()
 
 
@@ -20,6 +20,27 @@ negocioRoutes.get("/:id", async (req,res) => {
     }
     catch(error){
         console.log(error)
+    }
+})
+
+negocioRoutes.get("/byId/:id", async (req,res) => {
+    try{
+    const negocio = await getNegocioById(req.params.id)
+    res.json(negocio)
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+
+negocioRoutes.get("/byUserPhone/:userPhone", async (req,res) => {
+    try{
+    const negocios = await getNegociosByUserPhone(req.params.userPhone)
+    res.json(negocios)
+    }
+    catch(error){
+        console.log(error.message)
+        res.status(400).json(error.message)
     }
 })
 

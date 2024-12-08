@@ -1,6 +1,6 @@
 const {Router} = require("express")
 const userRoutes = Router()
-const {newUser, verifyUser, authUser, putUser, getUsers, deleteUser, newAppointment, sendPushNotificationByUser, sendPushNotificationByNegocio} = require("../controllers/userController")
+const {newUser, verifyUser, authUser, putUser, getUsers, deleteUser, newAppointment, sendPushNotificationByUser, sendPushNotificationByNegocio, updateNotications} = require("../controllers/userController")
 
 userRoutes.get("/", async (req,res) => {
     try{
@@ -92,5 +92,16 @@ userRoutes.post("/admin/sendPushNotificationByNegocio", async (req,res) => {
         console.log(error)
     }
 })
+
+userRoutes.post("/updateNotifications/:userId", async (req,res) => {
+    try{
+        const response = await updateNotications(req.params.userId)
+        res.json(response)
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+
 
 module.exports = userRoutes

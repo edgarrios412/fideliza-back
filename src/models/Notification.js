@@ -23,6 +23,11 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue:"notification"
       },
+      see: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue:false
+      },
       date: {
         type: DataTypes.DATE,
         allowNull: true,
