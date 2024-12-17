@@ -57,7 +57,7 @@ negocioRoutes.get("/getUserNegocio/:negocioId", async (req,res) => {
 
 negocioRoutes.put("/edit", async (req,res) => {
     try{
-    const negocios = await editImgNegocio(req.body.url)
+    const negocios = await editImgNegocio(req.body)
     res.json(negocios)
     }
     catch(error){
