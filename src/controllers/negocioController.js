@@ -75,6 +75,25 @@ module.exports = {
       return data;
     }
   },
+  getUserNegocio: async (negocioId) => {
+      const usuariosEnNegocio = await UserNegocioPoints.findAll({
+        where: {
+          negocioId: negocioId,
+        },
+      });
+      const usuarios = [];
+      for (let i = 0; i < usuariosEnNegocio.length; i++) {
+        const usuario = await User.findByPk(usuariosEnNegocio[i].userId);
+        usuarios.push(usuario);
+      }
+      return usuarios
+  },
+  editImgNegocio: async (data) => {
+    const negocio = await Negocio.findByPk(data.negocioId)
+    negocio.image = data.url;
+    negocio.save()
+    return "Exitoso"
+  },
   getNegocioById: async (id) => {
     const negocio = await Negocio.findByPk(id,{ include: [{ model: Product }] })
     return negocio
